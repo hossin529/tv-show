@@ -52,8 +52,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           body: state.tvShows.isEmpty
               ? NoResult(
                   onTap: () {
-                    BlocProvider.of<FavoriteBloc>(context)
-                        .add(const InitFavorite());
+                    Navigator.of(context).pop();
                   },
                 )
               : ListView.builder(

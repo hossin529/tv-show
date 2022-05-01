@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tv_shows/logic/home/home_bloc.dart';
@@ -19,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController _scrollController = new ScrollController();
   TextEditingController _searchEditingController = new TextEditingController();
+  Timer? searchOnStoppedTyping;
 
   @override
   void initState() {
@@ -63,7 +66,21 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Center(
                 child: TextField(
                   controller: _searchEditingController,
+                  onChanged: (val) {
+                    if (val.isEmpty) return;
+                    const duration = Duration(milliseconds: 800);
+                    if (searchOnStoppedTyping != null) {
+                      searchOnStoppedTyping?.cancel(); // clear timer
+                    }
+                    searchOnStoppedTyping = Timer(duration, () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+
+                      BlocProvider.of<HomeBloc>(context).add(
+                          SearchHome(_searchEditingController.text.trim()));
+                    });
+                  },
                   onEditingComplete: () {
+                    if (_searchEditingController.text.trim().isEmpty) return;
                     FocusScope.of(context).requestFocus(FocusNode());
 
                     BlocProvider.of<HomeBloc>(context)
