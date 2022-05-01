@@ -1,6 +1,11 @@
-# tv_shows
+# tv shows
 
-A new Flutter project.
+web / mobile application where you can search for tv shows and mark them as favorites
+
+<img src="/assets/mobile.gif"></br>
+<img src="/assets/web.gif"></br>
+
+
 
 ## Getting Started
 
