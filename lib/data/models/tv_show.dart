@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:tv_shows/config/app_config.dart';
 
 class TvShow {

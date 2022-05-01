@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tv_shows/data/models/tv_show.dart';
+import 'package:tv_shows/logic/favorite/favorite_bloc.dart';
 
 import '../../utils/util.dart';
 
@@ -70,11 +72,37 @@ class _TvShowCardState extends State<TvShowCard> {
                           maxLines: 2,
                         ),
                       ),
-                      IconButton(
-                        color: Colors.redAccent,
-                        icon: const Icon(Icons.favorite_border),
-                        onPressed: () {},
-                      ),
+                      BlocBuilder<FavoriteBloc, FavoriteState>(
+                          builder: (context, state) {
+                        var tvShowfounded = state.tvShows.firstWhere(
+                            (itemToCheck) =>
+                                itemToCheck.id == widget.tvShow!.id,
+                            orElse: () => TvShow());
+                        if (state.status == FavoriteStatus.loading) {
+                          return Container(
+                            alignment: Alignment.center,
+                            color: Colors.transparent,
+                            child: const CircularProgressIndicator(),
+                          );
+                        }
+                        return tvShowfounded.id != null
+                            ? IconButton(
+                                color: Colors.redAccent,
+                                icon: const Icon(Icons.favorite),
+                                onPressed: () {
+                                  BlocProvider.of<FavoriteBloc>(context)
+                                      .add(RemoveFavorite(widget.tvShow!));
+                                },
+                              )
+                            : IconButton(
+                                color: Colors.redAccent,
+                                icon: const Icon(Icons.favorite_border),
+                                onPressed: () {
+                                  BlocProvider.of<FavoriteBloc>(context)
+                                      .add(AddFavorite(widget.tvShow!));
+                                },
+                              );
+                      })
                     ],
                   ),
                 ),

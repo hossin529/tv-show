@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tv_shows/ui/screens/favorite/favorite_screen.dart';
 import 'package:tv_shows/ui/screens/home/home_screen.dart';
 
 const String initialRoute = HomeScreen.routeName;
@@ -8,6 +9,8 @@ class Router {
     switch (settings.name) {
       case HomeScreen.routeName:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case FavoriteScreen.routeName:
+        return MaterialPageRoute(builder: (_) => const FavoriteScreen());
 
       default:
         return MaterialPageRoute(

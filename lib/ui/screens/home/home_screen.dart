@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tv_shows/logic/home/home_bloc.dart';
+import 'package:tv_shows/ui/screens/favorite/favorite_screen.dart';
 import 'package:tv_shows/ui/utils/dialogs.dart';
 import 'package:tv_shows/ui/utils/util.dart';
 import 'package:tv_shows/ui/widgets/cards/tv_show_card.dart';
@@ -87,6 +88,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             leading: null,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.favorite),
+                onPressed: () =>
+                    Navigator.of(context).pushNamed(FavoriteScreen.routeName),
+              ),
+            ],
           ),
           body: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
             if (state.status == HomeStatus.loading && state.tvShows.isEmpty) {
